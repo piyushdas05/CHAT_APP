@@ -1,18 +1,21 @@
+import dns from 'dns';
+dns.setServers(['8.8.8.8', '8.8.4.4']); // Bypasses ISP restrictions on DNS SRV lookups
 import express from "express";
-import { ENV } from "./lib/env.js";
 import path from "path";
 
 
 import authRoutes from "./routes/auth.route.js"
 import messageRoutes from "./routes/message.route.js";
-
+import { ENV } from "./lib/env.js";
+import { connectDB } from "./lib/db.js";
 
 const __dirname = path.resolve();
 
 const PORT = ENV.PORT || 3000;
 
 const app=express();
-
+app.use(express.json());
+//{ limit: "5mb" }     
 
 app.use("/api/auth",authRoutes);
 app.use("/api/messages", messageRoutes);
@@ -28,6 +31,7 @@ if (ENV.NODE_ENV === "production") {
 
 }
 
-app.listen(PORT,()=>{ 
-    console.log("server running on PORT")
-})
+app.listen(PORT ,()=>{ 
+  console.log("Server running on port: " + PORT);
+  connectDB();
+});
