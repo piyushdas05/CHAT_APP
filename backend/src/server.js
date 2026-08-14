@@ -1,6 +1,7 @@
 import dns from 'dns';
 dns.setServers(['8.8.8.8', '8.8.4.4']); // Bypasses ISP restrictions on DNS SRV lookups
 import express from "express";
+import cookieParser from "cookie-parser";
 import path from "path";
 
 
@@ -14,8 +15,8 @@ const __dirname = path.resolve();
 const PORT = ENV.PORT || 3000;
 
 const app=express();
-app.use(express.json());
-//{ limit: "5mb" }     
+app.use(express.json({ limit: "5mb" }));//{ limit: "5mb" }     
+app.use(cookieParser());
 
 app.use("/api/auth",authRoutes);
 app.use("/api/messages", messageRoutes);
