@@ -5,3 +5,4 @@ function BorderAnimatedContainer({ children }) {
     </div>
   );
 }
+export default BorderAnimatedContainer;
